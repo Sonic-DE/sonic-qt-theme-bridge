@@ -43,9 +43,7 @@ macro(FRAMEWORKINTEGRATION_TESTS _testname)
         KF6::StatusNotifierItem
         KF6::WindowSystem
         KF6::GuiAddons
-        Qt6::WaylandClient
         XCB::XCB
-        Wayland::Client
         KF6::ColorScheme
     )
 endmacro()
@@ -56,13 +54,6 @@ qt6_add_dbus_interface(dbus_interface ../src/platformtheme/org.kde.StatusNotifie
 frameworkintegration_tests(
     kdeplatformtheme_unittest
 )
-set(wayland_interfaces)
-
-qt6_generate_wayland_protocol_client_sources(kdeplatformtheme_unittest6
-    PRIVATE_CODE
-    FILES
-      ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration-palette.xml
-)
 
 target_sources(kdeplatformtheme_unittest6 PRIVATE
   ../src/platformtheme/kdeplatformtheme.cpp ../src/platformtheme/kdeplatformtheme.h
@@ -72,7 +63,6 @@ target_sources(kdeplatformtheme_unittest6 PRIVATE
   ../src/platformtheme/kdeplatformmessagedialoghelper.cpp ../src/platformtheme/kdeplatformmessagedialoghelper.h
   ../src/platformtheme/kdeplatformfiledialogbase.cpp
   ../src/platformtheme/kdeplatformsystemtrayicon.cpp ../src/platformtheme/kdeplatformsystemtrayicon.h
-  ../src/platformtheme/kwaylandintegration.cpp ../src/platformtheme/kwaylandintegration.h
   ../src/platformtheme/x11integration.cpp ../src/platformtheme/x11integration.h
   ../src/platformtheme/qxdgdesktopportalfiledialog.cpp
   ../src/platformtheme/qdbusmenubarwrapper.h
@@ -80,7 +70,6 @@ target_sources(kdeplatformtheme_unittest6 PRIVATE
   ../src/platformtheme/kioopenwith.cpp
   ../src/platformtheme/kioopenwithxdp.cpp
   ${dbus_interface}
-  ${wayland_interfaces}
 )
 # TODO KF6 Port D-Bus menu support
 target_compile_definitions(kdeplatformtheme_unittest6 PRIVATE -DKF6_TODO_DBUS_MENUBAR)

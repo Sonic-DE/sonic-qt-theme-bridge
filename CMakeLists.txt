@@ -3,9 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(PlasmaIntegration)
 set(PROJECT_VERSION "6.7.3")
 
-set(QT5_MIN_VERSION "5.15.2")
 set(QT_MIN_VERSION "6.10.0")
-set(KF5_MIN_VERSION "5.102.0")
 set(KF6_MIN_VERSION "6.26.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.82")
 
@@ -16,7 +14,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(QT_NO_CREATE_VERSIONLESS_TARGETS ON)
 set(QT_NO_CREATE_VERSIONLESS_FUNCTIONS ON)
 
-find_package(ECM ${KF5_MIN_VERSION}  REQUIRED NO_MODULE)
+find_package(ECM ${KF6_MIN_VERSION}  REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules ${ECM_MODULE_PATH} )
 
 # We need this because we can't include KDECMakeSettings here, because that
@@ -38,21 +36,6 @@ include(GenerateExportHeader)
 include(KDEClangFormat)
 include(KDEGitCommitHooks)
 include(ECMDeprecationSettings)
-
-find_package(Wayland 1.9 REQUIRED Client)
-find_package(PlasmaWaylandProtocols 1.6.0 CONFIG REQUIRED)
-
-option(BUILD_QT5 "Build for Qt5" ON)
-option(BUILD_QT6 "Build for Qt6" ON)
-
-#CI is stupid and doesn't allow us to set CMAKE options per build variant
-if ($ENV{CI_JOB_NAME_SLUG} MATCHES "qt5")
-    set(BUILD_QT5 ON)
-    set(BUILD_QT6 OFF)
-elseif($ENV{CI_JOB_NAME_SLUG} MATCHES "qt6")
-    set(BUILD_QT5 OFF)
-    set(BUILD_QT6 ON)
-endif()
 
 find_package(XCB COMPONENTS XCB)
 set_package_properties(XCB PROPERTIES
@@ -93,16 +76,9 @@ list(FILTER ALL_CLANG_FORMAT_SOURCE_FILES EXCLUDE REGEX ".*\\.ccls-cache/.*")
 kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
 kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
-if (${BUILD_QT5})
-    unset(QUERY_EXECUTABLE CACHE)
-    add_subdirectory(qt5)
-endif()
+unset(QUERY_EXECUTABLE CACHE)
 
-if (${BUILD_QT6})
-    unset(QUERY_EXECUTABLE CACHE)
-
-    add_definitions(-DTRANSLATION_DOMAIN=\"plasmaintegration5\")
-    add_subdirectory(qt6)
-endif()
+add_definitions(-DTRANSLATION_DOMAIN=\"plasmaintegration5\")
+add_subdirectory(qt6)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

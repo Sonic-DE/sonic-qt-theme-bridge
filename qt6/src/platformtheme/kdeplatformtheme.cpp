@@ -16,7 +16,6 @@
 #include "kfontsettingsdata.h"
 #include "khintssettings.h"
 #include "kiodelegate.h"
-#include "kwaylandintegration.h"
 #include "x11integration.h"
 
 #include <QApplication>
@@ -50,11 +49,6 @@ using namespace Qt::StringLiterals;
 KdePlatformTheme::KdePlatformTheme()
 {
     loadSettings();
-
-    // explicitly not KWindowSystem::isPlatformWayland to not include the kwin process
-    if (QGuiApplication::platformName() == QLatin1String("wayland")) {
-        m_kwaylandIntegration.reset(new KWaylandIntegration(this));
-    }
 
 #if HAVE_X11
     if (KWindowSystem::isPlatformX11()) {

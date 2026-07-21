@@ -8,4 +8,4 @@ This plugin provides [the KdePlatformTheme](/qt6/src/platformtheme/kdeplatformth
 
 The easiest way to make changes and test Plasma Integration during development is to [build it with kde-builder](https://develop.kde.org/docs/getting-started/building).
 
-When building Plasma Integration manually, keep in mind that the Qt5 and Qt6 versions will be built by default. To control which versions are built, use the `BUILD_QT5` and `BUILD_QT6` CMake variables.
+When building Plasma Integration manually, only the Qt6 version is built.

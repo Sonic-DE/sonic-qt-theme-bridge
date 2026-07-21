@@ -20,7 +20,6 @@ set(platformtheme_SRCS
     kdeplatformfiledialogbase.cpp
     kdeplatformmessagedialoghelper.cpp kdeplatformmessagedialoghelper.h
     kdeplatformsystemtrayicon.cpp kdeplatformsystemtrayicon.h
-    kwaylandintegration.cpp kwaylandintegration.h
     x11integration.cpp x11integration.h
     main.cpp
     qxdgdesktopportalfiledialog.cpp
@@ -37,12 +36,6 @@ add_library(KDEPlasmaPlatformTheme6 MODULE)
 
 # TODO KF6 Port D-Bus menu support
 target_compile_definitions(KDEPlasmaPlatformTheme6 PRIVATE -DKF6_TODO_DBUS_MENUBAR)
-
-qt6_generate_wayland_protocol_client_sources(KDEPlasmaPlatformTheme6
-    PRIVATE_CODE
-    FILES
-        ${PLASMA_WAYLAND_PROTOCOLS_DIR}/server-decoration-palette.xml
-)
 
 target_sources(KDEPlasmaPlatformTheme6 PRIVATE ${platformtheme_SRCS})
 
@@ -65,9 +58,7 @@ target_link_libraries(KDEPlasmaPlatformTheme6
         KF6::WindowSystem
         KF6::GuiAddons
         XCB::XCB
-        Qt6::WaylandClient
         Qt6::GuiPrivate
-        Wayland::Client
 )
 
 target_link_libraries(KDEPlasmaPlatformTheme6 PRIVATE KF6::ColorScheme)
