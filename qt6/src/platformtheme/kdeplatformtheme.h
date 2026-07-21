@@ -18,7 +18,6 @@
 
 class KHintsSettings;
 class KFontSettingsData;
-class KWaylandIntegration;
 class X11Integration;
 class QIconEngine;
 class QWindow;
@@ -61,8 +60,7 @@ private:
     static bool checkIfThemeExists(const QString &themePath);
 
     KHintsSettings *m_hints = nullptr;
-    KFontSettingsData *m_fontsData = nullptr;
-    QScopedPointer<KWaylandIntegration> m_kwaylandIntegration;
+    KFontSettingsData* m_fontsData = nullptr;
     QScopedPointer<X11Integration> m_x11Integration;
 };
 
