@@ -32,11 +32,11 @@ void KHintsSettingsTest::testDefaults()
     QCOMPARE(hints.hint(QPlatformTheme::ToolBarIconSize).toInt(), 22);
     QCOMPARE(hints.hint(QPlatformTheme::ItemViewActivateItemOnSingleClick).toBool(), false);
 
-    QCOMPARE(hints.hint(QPlatformTheme::SystemIconThemeName).toString(), QStringLiteral("breeze"));
+    QCOMPARE(hints.hint(QPlatformTheme::SystemIconThemeName).toString(), QStringLiteral("silver"));
     QCOMPARE(hints.hint(QPlatformTheme::SystemIconFallbackThemeName).toString(), QStringLiteral("hicolor"));
     QCOMPARE(hints.hint(QPlatformTheme::IconThemeSearchPaths).toStringList(), hints.xdgIconThemePaths());
 
-    const QStringList expectedStyles = QStringList{QStringLiteral("breeze"), QStringLiteral("oxygen"), QStringLiteral("fusion"), QStringLiteral("windows")};
+    const QStringList expectedStyles = QStringList{QStringLiteral("silver"), QStringLiteral("oxygen"), QStringLiteral("fusion"), QStringLiteral("windows")};
     QCOMPARE(hints.hint(QPlatformTheme::StyleNames).toStringList(), expectedStyles);
 
     QCOMPARE(hints.hint(QPlatformTheme::DialogButtonBoxLayout).toInt(), int(QDialogButtonBox::KdeLayout));
