@@ -46,7 +46,7 @@
 #include <private/qtx11extras_p.h>
 #endif
 
-static const QString defaultLookAndFeelPackage = QStringLiteral("org.kde.breeze.desktop");
+static const QString defaultLookAndFeelPackage = QStringLiteral("org.kde.silverlightbottompanel.desktop");
 
 const QDBusArgument &operator>>(const QDBusArgument &argument, QMap<QString, QVariantMap> &map)
 {
@@ -93,13 +93,13 @@ KHintsSettings::KHintsSettings(const KSharedConfig::Ptr &kdeglobals)
 
     m_hints[QPlatformTheme::ItemViewActivateItemOnSingleClick] = readConfigValue(cg, QStringLiteral("SingleClick"), false);
 
-    m_hints[QPlatformTheme::SystemIconThemeName] = readConfigValue(QStringLiteral("Icons"), QStringLiteral("Theme"), QStringLiteral("breeze"));
+    m_hints[QPlatformTheme::SystemIconThemeName] = readConfigValue(QStringLiteral("Icons"), QStringLiteral("Theme"), QStringLiteral("silver"));
 
     m_hints[QPlatformTheme::SystemIconFallbackThemeName] = QStringLiteral("hicolor");
     m_hints[QPlatformTheme::IconThemeSearchPaths] = xdgIconThemePaths();
 
     QStringList styleNames{
-        QStringLiteral("breeze"),
+        QStringLiteral("silver"),
         QStringLiteral("oxygen"),
         QStringLiteral("fusion"),
         QStringLiteral("windows"),
@@ -307,13 +307,13 @@ void KHintsSettings::slotNotifyChange(int type, int arg)
         }
 
         // HOTFIX here. Hardcoded default value is duplicated and may be inconsistent with the one actually defined in kcm_style kcfg
-        const QString theme = readConfigValue(cg, QStringLiteral("widgetStyle"), QStringLiteral("breeze")).toString();
+        const QString theme = readConfigValue(cg, QStringLiteral("widgetStyle"), QStringLiteral("silver")).toString();
 
         QStringList styleNames;
-        if (theme != QStringLiteral("breeze")) {
+        if (theme.compare(QStringLiteral("silver"), Qt::CaseInsensitive) != 0) {
             styleNames << theme;
         }
-        styleNames << QStringLiteral("breeze") << QStringLiteral("oxygen") << QStringLiteral("fusion") << QStringLiteral("windows");
+        styleNames << QStringLiteral("silver") << QStringLiteral("oxygen") << QStringLiteral("fusion") << QStringLiteral("windows");
         const QString lnfStyle = readConfigValue(QStringLiteral("KDE"), QStringLiteral("widgetStyle"), QString()).toString();
         if (!lnfStyle.isEmpty() && !styleNames.contains(lnfStyle)) {
             styleNames.prepend(lnfStyle);
@@ -458,12 +458,12 @@ void KHintsSettings::loadPalettes()
             return;
         }
 
-        const QString scheme = readConfigValue(QStringLiteral("General"), QStringLiteral("ColorScheme"), QStringLiteral("BreezeLight")).toString();
+        const QString scheme = readConfigValue(QStringLiteral("General"), QStringLiteral("ColorScheme"), QStringLiteral("SilverLight")).toString();
         path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes/") + scheme + QStringLiteral(".colors"));
 
         if (path.isEmpty()) {
-            qWarning() << "Could not find color scheme" << scheme << "falling back to BreezeLight";
-            path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes/BreezeLight.colors"));
+            qWarning() << "Could not find color scheme" << scheme << "falling back to SilverLight";
+            path = QStandardPaths::locate(QStandardPaths::GenericDataLocation, QStringLiteral("color-schemes/SilverLight.colors"));
         }
 
         m_palettes[QPlatformTheme::SystemPalette] = new QPalette(KColorScheme::createApplicationPalette(KSharedConfig::openConfig(path)));
@@ -501,7 +501,7 @@ void KHintsSettings::updateCursorTheme()
     KSharedConfig::Ptr inputConfig = KSharedConfig::openConfig(QStringLiteral("kcminputrc"));
     KConfigGroup mouseConfig(inputConfig, "Mouse");
 
-    const QString cursorTheme = readConfigValue(mouseConfig, QStringLiteral("cursorTheme"), QStringLiteral("breeze_cursors")).toString();
+    const QString cursorTheme = readConfigValue(mouseConfig, QStringLiteral("cursorTheme"), QStringLiteral("silver_cursors_light")).toString();
     const int cursorSize = readConfigValue(mouseConfig, QStringLiteral("cursorSize"), 24).toInt();
 
     m_hints[QPlatformTheme::MouseCursorTheme] = cursorTheme;
