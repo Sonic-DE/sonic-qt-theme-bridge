@@ -4,8 +4,11 @@
     SPDX-License-Identifier: LGPL-2.0-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 #include "../src/platformtheme/khintssettings.h"
+#include <KConfigGroup>
+#include <KIconLoader>
 #include <KSharedConfig>
 #include <QDialogButtonBox>
+#include <QTemporaryDir>
 #include <QTest>
 #include <config-platformtheme.h>
 
@@ -14,6 +17,7 @@ class KHintsSettingsTest : public QObject
     Q_OBJECT
 private Q_SLOTS:
     void testDefaults();
+    void testIconThemeChanges();
 };
 
 void KHintsSettingsTest::testDefaults()
@@ -46,6 +50,34 @@ void KHintsSettingsTest::testDefaults()
     QCOMPARE(hints.hint(QPlatformTheme::UiEffects).toInt(), QPlatformTheme::HoverEffect);
     QCOMPARE(hints.hint(QPlatformTheme::IconPixmapSizes).value<QList<int>>(), QList<int>({512, 256, 128, 64, 32, 22, 16, 8}));
     QCOMPARE(hints.hint(QPlatformTheme::WheelScrollLines).toInt(), 3);
+}
+
+void KHintsSettingsTest::testIconThemeChanges()
+{
+    QTemporaryDir dir;
+    QVERIFY(dir.isValid());
+    const auto config = KSharedConfig::openConfig(dir.filePath(QStringLiteral("kdeglobals")), KConfig::SimpleConfig);
+    KHintsSettings hints(config);
+    QCOMPARE(hints.hint(QPlatformTheme::SystemIconThemeName).toString(), QStringLiteral("silver"));
+
+    KConfigGroup icons(config, "Icons");
+    icons.writeEntry("Theme", QStringLiteral("custom-icon-theme"));
+    QVERIFY(config->sync());
+    QVERIFY(QMetaObject::invokeMethod(&hints,
+        "slotNotifyChange",
+        Qt::DirectConnection,
+        Q_ARG(int, KHintsSettings::IconChanged),
+        Q_ARG(int, KIconLoader::Desktop)));
+    QCOMPARE(hints.hint(QPlatformTheme::SystemIconThemeName).toString(), QStringLiteral("custom-icon-theme"));
+
+    icons.deleteEntry("Theme");
+    QVERIFY(config->sync());
+    QVERIFY(QMetaObject::invokeMethod(&hints,
+        "slotNotifyChange",
+        Qt::DirectConnection,
+        Q_ARG(int, KHintsSettings::IconChanged),
+        Q_ARG(int, KIconLoader::Desktop)));
+    QCOMPARE(hints.hint(QPlatformTheme::SystemIconThemeName).toString(), QStringLiteral("silver"));
 }
 
 QTEST_GUILESS_MAIN(KHintsSettingsTest)
