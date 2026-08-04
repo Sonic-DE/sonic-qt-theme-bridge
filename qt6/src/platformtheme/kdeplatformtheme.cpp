@@ -368,7 +368,7 @@ void KdePlatformTheme::setQtQuickControlsTheme()
     }
 
     KConfigGroup cg(KSharedConfig::openConfig(), "KDE");
-    const QString theme = cg.readEntry(QStringLiteral("widgetStyle"), QStringLiteral("breeze")).toLower();
+    const QString theme = cg.readEntry(QStringLiteral("widgetStyle"), QStringLiteral("silver")).toLower();
     // Can't use qApp->style()->name() here because accessing it will reset to breeze
 #ifdef DEFAULT_UNION_STYLE
     if ((theme == QStringLiteral("breeze") || theme == QStringLiteral("union")) && checkIfThemeExists(QStringLiteral("/org/kde/union"))) {
