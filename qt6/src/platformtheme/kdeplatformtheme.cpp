@@ -32,7 +32,6 @@
 #include <QWindow>
 #include <QtQuickControls2/QQuickStyle>
 
-#include <KConfigGroup>
 #include <KIO/Global>
 #include <KLocalizedString>
 #include <KStandardGuiItem>
@@ -370,16 +369,7 @@ void KdePlatformTheme::setQtQuickControlsTheme()
         return;
     }
 
-    KConfigGroup cg(KSharedConfig::openConfig(), "KDE");
-    const QString theme = cg.readEntry(QStringLiteral("widgetStyle"), QStringLiteral("silver")).toLower();
-    // Can't use qApp->style()->name() here because accessing it will reset to breeze
-#ifdef DEFAULT_UNION_STYLE
-    if ((theme == QStringLiteral("breeze") || theme == QStringLiteral("union")) && checkIfThemeExists(QStringLiteral("/org/kde/union"))) {
-#else
-    if (theme == QStringLiteral("union") && checkIfThemeExists(QStringLiteral("/org/kde/union"))) {
-#endif
-        QQuickStyle::setStyle(QStringLiteral("org.kde.union"));
-    } else if (checkIfThemeExists(QStringLiteral("/org/kde/desktop"))) {
+    if (checkIfThemeExists(QStringLiteral("/org/kde/desktop"))) {
         QQuickStyle::setStyle(QStringLiteral("org.kde.desktop"));
     }
 }

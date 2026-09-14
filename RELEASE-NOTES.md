@@ -5,6 +5,7 @@ Makes Qt apps fit seamlessly into SonicDE, with your theme, icons, fonts and fil
 ## Unreleased
 
 - Modern apps' toolbars and menu bars now join the window's title bar as one surface, with the theme's opacity and blur, and follow changes to these settings straight away. Themes that don't use this look the same as before.
+- Behind the scenes: removed leftover support for an upstream style that SonicDE doesn't ship.
 
 ## 6.8.0 (2026-10-20)
 
