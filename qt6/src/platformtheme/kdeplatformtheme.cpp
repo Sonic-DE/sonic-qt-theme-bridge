@@ -16,6 +16,7 @@
 #include "kfontsettingsdata.h"
 #include "khintssettings.h"
 #include "kiodelegate.h"
+#include "toolsareasettings.h"
 #include "x11integration.h"
 
 #include <QApplication>
@@ -173,6 +174,7 @@ void KdePlatformTheme::loadSettings()
 {
     m_fontsData = new KFontSettingsData;
     m_hints = new KHintsSettings;
+    m_toolsArea.reset(new ToolsAreaSettings);
 }
 
 QList<QKeySequence> KdePlatformTheme::keyBindings(QKeySequence::StandardKey key) const

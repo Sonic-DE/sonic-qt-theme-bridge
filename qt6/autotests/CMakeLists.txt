@@ -59,6 +59,7 @@ target_sources(kdeplatformtheme_unittest6 PRIVATE
   ../src/platformtheme/kdeplatformtheme.cpp ../src/platformtheme/kdeplatformtheme.h
   ../src/platformtheme/kfontsettingsdata.cpp ../src/platformtheme/kfontsettingsdata.h
   ../src/platformtheme/khintssettings.cpp ../src/platformtheme/khintssettings.h
+  ../src/platformtheme/toolsareasettings.cpp ../src/platformtheme/toolsareasettings.h
   ../src/platformtheme/kdeplatformfiledialoghelper.cpp ../src/platformtheme/kdeplatformfiledialoghelper.h
   ../src/platformtheme/kdeplatformmessagedialoghelper.cpp ../src/platformtheme/kdeplatformmessagedialoghelper.h
   ../src/platformtheme/kdeplatformfiledialogbase.cpp
@@ -73,6 +74,11 @@ target_sources(kdeplatformtheme_unittest6 PRIVATE
 )
 # TODO KF6 Port D-Bus menu support
 target_compile_definitions(kdeplatformtheme_unittest6 PRIVATE -DKF6_TODO_DBUS_MENUBAR)
+
+frameworkintegration_tests(
+  toolsareasettings_unittest
+  ../src/platformtheme/toolsareasettings.cpp ../src/platformtheme/toolsareasettings.h
+)
 
 frameworkintegration_tests(
   kfontsettingsdata_unittest
@@ -104,3 +110,11 @@ if(Qt6Qml_FOUND AND TARGET Qt6::qmltestrunner)
     frameworkintegration_tests(kfiledialogqml_unittest)
     target_link_libraries(kfiledialogqml_unittest6 Qt6::Qml)
 endif()
+
+# Tests that run the application with the platform theme built here (builtplatformtheme.h).
+foreach(_test kdeplatformtheme_unittest6 kfiledialog_unittest6 kfiledialogqml_unittest6)
+    if(TARGET ${_test})
+        target_compile_definitions(${_test} PRIVATE PLATFORMTHEME_PLUGIN_ROOT="$<TARGET_FILE_DIR:KDEPlasmaPlatformTheme6>/..")
+        add_dependencies(${_test} KDEPlasmaPlatformTheme6)
+    endif()
+endforeach()

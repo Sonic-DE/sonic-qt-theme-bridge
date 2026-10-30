@@ -16,6 +16,7 @@ set(platformtheme_SRCS
     kdeplatformtheme.cpp kdeplatformtheme.h
     kfontsettingsdata.cpp kfontsettingsdata.h
     khintssettings.cpp khintssettings.h
+    toolsareasettings.cpp toolsareasettings.h
     kdeplatformfiledialoghelper.cpp kdeplatformfiledialoghelper.h
     kdeplatformfiledialogbase.cpp
     kdeplatformmessagedialoghelper.cpp kdeplatformmessagedialoghelper.h

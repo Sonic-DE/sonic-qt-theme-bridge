@@ -18,6 +18,7 @@
 
 class KHintsSettings;
 class KFontSettingsData;
+class ToolsAreaSettings;
 class X11Integration;
 class QIconEngine;
 class QWindow;
@@ -62,6 +63,7 @@ private:
     KHintsSettings *m_hints = nullptr;
     KFontSettingsData* m_fontsData = nullptr;
     QScopedPointer<X11Integration> m_x11Integration;
+    QScopedPointer<ToolsAreaSettings> m_toolsArea;
 };
 
 #endif // KDEPLATFORMTHEME_H

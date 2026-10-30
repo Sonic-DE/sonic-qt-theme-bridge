@@ -6,6 +6,7 @@
 
 #include "../src/platformtheme/kdeplatformtheme.h"
 #include "../src/platformtheme/khintssettings.h"
+#include "builtplatformtheme.h"
 #include "kdeplatformtheme_config.h"
 #include <config-platformtheme.h>
 #undef HAVE_X11
@@ -25,7 +26,6 @@
 #include <QToolButton>
 #include <Qt>
 
-#include <KWindowSystem>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QTimer>
@@ -281,7 +281,8 @@ private Q_SLOTS:
 
     void dndWindowFlagsTest()
     {
-        if (!KWindowSystem::isPlatformX11()) {
+        // KWindowSystem::isPlatformX11() is always true in SonicDE, even under offscreen.
+        if (QGuiApplication::platformName() != QLatin1String("xcb")) {
             QSKIP("This test requires xcb platform.");
         }
 
