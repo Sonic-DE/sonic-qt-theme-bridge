@@ -259,7 +259,8 @@ QList<QKeySequence> KdePlatformTheme::keyBindings(QKeySequence::StandardKey key)
     case QKeySequence::PreviousChild:
         return KStandardShortcut::shortcut(KStandardShortcut::TabPrev);
     case QKeySequence::Delete:
-        return KStandardShortcut::shortcut(KStandardShortcut::MoveToTrash);
+        // Move to Trash first: QKeySequence(QKeySequence::Delete) takes only the first binding.
+        return KStandardShortcut::shortcut(KStandardShortcut::MoveToTrash) + KStandardShortcut::shortcut(KStandardShortcut::DeleteFile);
     default:
         return QPlatformTheme::keyBindings(key);
     }

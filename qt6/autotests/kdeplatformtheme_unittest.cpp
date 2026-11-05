@@ -31,6 +31,7 @@
 #include <QTimer>
 
 #include <KIconTheme>
+#include <KStandardShortcut>
 #include <KWindowInfo>
 #include <kiconloader.h>
 
@@ -151,6 +152,21 @@ private Q_SLOTS:
 
         QCOMPARE(qApp->wheelScrollLines(), 1234);
         QCOMPARE(qApp->testAttribute(Qt::AA_DontShowIconsInMenus), false);
+    }
+
+    void testDeleteKeyBindings()
+    {
+        const QList<QKeySequence> bindings = m_qpa->keyBindings(QKeySequence::Delete);
+        const QList<QKeySequence> trash = KStandardShortcut::shortcut(KStandardShortcut::MoveToTrash);
+        QVERIFY(!trash.isEmpty());
+        QCOMPARE(bindings.first(), trash.first());
+
+        const QList<QKeySequence> cut = m_qpa->keyBindings(QKeySequence::Cut);
+        const QList<QKeySequence> deleteFile = KStandardShortcut::shortcut(KStandardShortcut::DeleteFile);
+        for (const QKeySequence& key : deleteFile) {
+            QVERIFY(bindings.contains(key));
+            QVERIFY(!cut.contains(key));
+        }
     }
 
     void testPlatformPalette()
