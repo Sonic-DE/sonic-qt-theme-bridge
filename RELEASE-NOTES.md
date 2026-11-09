@@ -2,10 +2,11 @@
 
 Makes Qt apps fit seamlessly into SonicDE, with your theme, icons, fonts and file dialogs.
 
-## Unreleased
+## 6.8.2 (2026-11-10)
 
 - Modern apps' toolbars and menu bars now join the window's title bar as one surface, with the theme's opacity and blur, and follow changes to these settings straight away. Themes that don't use this look the same as before.
-- Behind the scenes: removed leftover support for an upstream style that SonicDE doesn't ship.
+- Shift+Delete now deletes text in text fields.
+- Behind the scenes: removed leftover support for an upstream style that SonicDE doesn't ship, and added the GPL 2.0 or later licence text.
 
 ## 6.8.0 (2026-10-20)
 
